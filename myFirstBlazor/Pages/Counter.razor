@@ -1,16 +1,47 @@
 ﻿@page "/counter"
 
+
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" disabled="@(currentCount >= 10)" @onclick="IncrementCount">Click me</button>
+
+<input type="number" @bind="increment" />
+
+<button class="btn btn-danger" disabled="@(currentCount < 10)" @onclick="ResetCount">Reset</button>
+
+<hr />
+
+<input type="text" @bind="@someDate" format-value="dd-MM-yyyy" />
+
+<hr />
+
+<button class="btn btn-success" @onclick="AutoIncrement" >Auto Increment</button>
+
+
 
 @code {
     private int currentCount = 0;
+    private int increment = 1;
+    private DateTime someDate = DateTime.Now;
 
     private void IncrementCount()
     {
-        currentCount++;
+        currentCount += increment;
+    }
+
+    private void ResetCount()
+    {
+        currentCount = 0;
+    }
+
+    private void AutoIncrement()
+    {
+        var timer = new System.Threading.Timer((_) =>
+        {
+            IncrementCount();
+            base.InvokeAsync(StateHasChanged);  // needs this to update the timer in the ui
+        }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
     }
 }
