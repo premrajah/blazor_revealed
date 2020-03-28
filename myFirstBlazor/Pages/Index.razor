@@ -1,5 +1,39 @@
 ﻿@page "/"
+@using blazor_revealed.Pages
+
+<Alert Show="@ShowAlert">
+    <span class="oi oi-check mr-2" aria-hidden="true"></span>
+    <strong>Blazor is Cool</strong>
+</Alert>
+<button class="btn btn-dark mb-3" @onclick="@ToggleAlert">Toggle</button>
+
+<DismissableAlert Show="@ShowAlert">
+    <span class="oi oi-check mr-2" aria-hidden="true"></span>
+    <strong>Blazor is soo cool!</strong>
+</DismissableAlert>
+
+@*<Timer TimeInSeconds="5" Tick="@DismissAlert" />*@
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+
+
+
+@code {
+
+    //public DismissableAlert dismissableAlert;
+
+    public bool ShowAlert { get; set; } = true;
+
+    public void ToggleAlert()
+    {
+        ShowAlert = !ShowAlert;
+    }
+
+    public void DismissAlert()
+    {
+        dismissableAlert.Dismiss();
+    }
+}

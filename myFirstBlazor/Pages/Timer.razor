@@ -1,0 +1,19 @@
+﻿
+
+@functions {
+    [Parameter]
+    public double TimeInSeconds { get; set; }
+
+    [Parameter]
+    public Action Tick { get; set; }
+    public override void OnInit()
+    {
+        base.OnInit();
+        var timer = new System.Threading.Timer(
+        (_) => Tick.Invoke(),
+        null,
+        TimeSpan.FromSeconds(TimeInSeconds),
+        System.Threading.Timeout.InfiniteTimeSpan);
+    }
+
+}
